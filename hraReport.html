@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HRA Report Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --primary: #1da69a;
+            --secondary: #f0c36d;
+            --sidebar-bg: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+            --chart-colors: #ffce56, #36a2eb, #ff6384;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8, #d9f2ee);
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: var(--sidebar-bg);
+            color: #fff;
+            padding: 30px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        .sidebar h3 {
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul li a {
+            color: #ddd;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: 0.3s ease;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
+
+        .sidebar ul li a:hover {
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        /* Main content */
+        .main-dashboard {
+            margin-left: 240px;
+            padding: 40px 30px;
+            width: 100%;
+        }
+
+        .header-bar {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header-title {
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .score-box {
+            background: var(--primary);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .label-top {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .chart-box {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+            transition: transform 0.2s ease;
+        }
+
+        .chart-box:hover {
+            transform: scale(1.03);
+        }
+
+        .chart-box h4 {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        canvas {
+            max-height: 250px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-dashboard {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .header-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Altimetrik</h3>
+        <ul>
+            <li><a href="#"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-user"></i> Employees</a></li>
+            <li><a href="#"><i class="fas fa-cogs"></i> Services</a></li>
+            <li><a href="#"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div class="main-dashboard">
+        <div class="header-bar">
+            <div class="header-title">All - Corporates</div>
+            <div class="label-top">Employee</div>
+            <div class="score-box">Average Score: 70.12</div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="chart-box text-center">
+                    <h4>Mental Health Issues</h4>
+                    <canvas id="chart5"></canvas>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="chart-box text-center">
+                    <h4>Stress Level</h4>
+                    <canvas id="chart9"></canvas>
+                </div>
+            </div>
+             <div class="col-sm-4">
+                <div class="chart-box text-center">
+                    <h4>Sleep</h4>
+                    <canvas id="chart7"></canvas>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="chart-box text-center">
+                    <h4>Physical Activity</h4>
+                    <canvas id="chart6"></canvas>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="chart-box text-center">
+                    <h4>Alcohol Consumption</h4>
+                    <canvas id="chart1"></canvas>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="chart-box text-center">
+                    <h4>Smoking</h4>
+                    <canvas id="chart8"></canvas>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="chart-box text-center">
+                    <h4>Allergies</h4>
+                    <canvas id="chart2"></canvas>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="chart-box text-center">
+                    <h4>Medical Conditions</h4>
+                    <canvas id="chart3"></canvas>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="chart-box text-center">
+                    <h4>Medications</h4>
+                    <canvas id="chart4"></canvas>
+                </div>
+            </div>
+            
+            <div class="col-sm-4">
+                <div class="chart-box text-center">
+                    <h4>Diet</h4>
+                    <canvas id="chart10"></canvas>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="chart-box text-center">
+                    <h4>Surgeries</h4>
+                    <canvas id="chart11"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const chartData = [
+            { id: 'chart1', data: [36.6, 32.6, 30.9] },
+            { id: 'chart2', data: [35.6, 34.7, 29.7] },
+            { id: 'chart3', data: [31.6, 33.3, 35.1] },
+            { id: 'chart4', data: [33.6, 33.1, 33.3] },
+            { id: 'chart5', data: [33.9, 35, 31.1] },
+            { id: 'chart6', data: [32.8, 35.3, 31.9] },
+            { id: 'chart7', data: [32.8, 35.3, 31.9] },
+            { id: 'chart8', data: [32.8, 35.3, 31.9] },
+            { id: 'chart9', data: [32.8, 35.3, 31.9] },
+            { id: 'chart10', data: [32.8, 35.3, 31.9] },
+            { id: 'chart11', data: [32.8, 35.3, 31.9] },
+        ];
+
+        const chartColors = ['#ffaf39', '#1da69a', '#ff6384'];
+
+        chartData.forEach(c => {
+            const ctx = document.getElementById(c.id).getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Moderate Risk', 'Low Risk', 'High Risk'],
+                    datasets: [{
+                        data: c.data,
+                        backgroundColor: chartColors,
+                        borderColor: '#ffffff',
+                        borderWidth: 2,
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#444',
+                                font: {
+                                    family: 'Poppins',
+                                    size: 12
+                                },
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#222',
+                            titleFont: {
+                                family: 'Poppins',
+                                weight: '600'
+                            },
+                            bodyFont: {
+                                family: 'Poppins'
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    return `${label}: ${value.toFixed(1)}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
