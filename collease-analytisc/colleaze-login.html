@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Campus Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap v3.4.1 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            background: #1D2F59;
+            position: relative;
+        }
+
+        .bubbles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .bubbles span {
+            position: absolute;
+            bottom: -100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: rise 15s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-1200px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .login-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            padding: 50px 35px;
+            border-radius: 20px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .login-box h3 {
+            margin-bottom: 10px;
+            color: #007BFF;
+            font-weight: 600;
+        }
+
+        .login-box .subheading {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .login-box .form-control {
+            margin-bottom: 20px;
+            height: 45px;
+            border-radius: 8px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+        }
+
+        .login-box .form-control:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+        }
+
+        .btn-signin {
+            background-color: #ff5722;
+            color: white;
+            font-weight: 600;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-signin:hover {
+            background-color: #e64a19;
+        }
+
+        .checkbox label {
+            color: #333;
+            font-size: 13px;
+        }
+
+        .forgot-link {
+            color: #007BFF;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .powered-by {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 13px;
+            color: #ccc;
+            z-index: 1;
+        }
+
+        .powered-by span {
+            color: #00cfff;
+            font-weight: bold;
+        }
+
+        .login-icon {
+            font-size: 40px;
+            color: #007BFF;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Bubble Background -->
+    <div class="bubbles" id="bubble-container"></div>
+
+    <!-- Login Form -->
+    <div class="login-box">
+        <div class="login-icon">
+            <span class="glyphicon glyphicon-lock"></span>
+        </div>
+        <h3>Campus Management System</h3>
+        <p class="subheading">Sign in to continue to eSmart</p>
+
+        <form>
+            <input type="email" class="form-control" placeholder="Email" value="chairman@mamce.org" required>
+            <input type="password" class="form-control" placeholder="Password" required>
+
+            <div class="form-footer">
+                <label><input type="checkbox" checked> Remember Me</label>
+                <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-signin">SIGN IN</button>
+        </form>
+    </div>
+
+    <!-- Powered By -->
+    <div class="powered-by">
+        Powered By <span>CollEaze</span> CAMPUS MANAGEMENT SYSTEM
+    </div>
+
+    <!-- Bubble Generator -->
+    <script>
+        const bubbleContainer = document.getElementById('bubble-container');
+        const colors = ['rgba(255,255,255,0.15)', 'rgba(255,255,255,0.25)', 'rgba(255,255,255,0.35)', 'rgba(255,255,255,0.45)'];
+
+        for (let i = 0; i < 60; i++) {
+            const bubble = document.createElement('span');
+            const size = Math.random() * 60 + 30;
+            const left = Math.random() * 100;
+            const delay = Math.random() * 10;
+            const duration = Math.random() * 10 + 10;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            bubble.style.width = bubble.style.height = `${size}px`;
+            bubble.style.left = `${left}%`;
+            bubble.style.animationDelay = `${delay}s`;
+            bubble.style.animationDuration = `${duration}s`;
+            bubble.style.backgroundColor = color;
+
+            bubbleContainer.appendChild(bubble);
+        }
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

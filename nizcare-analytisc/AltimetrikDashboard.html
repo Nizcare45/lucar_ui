@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Altimetrik Dashboard</title>
+    <!-- Bootstrap 3 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #f0f4f8, #d9f2ee);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: rgba(0, 12, 11, 0.9);
+            padding: 20px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #40C6BA;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar ul li a:hover {
+            color: #40C6BA;
+        }
+
+        .main-dashboard {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .dashboard-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 10px 15px 20px 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+
+        .card-title {
+            margin: 0 0 5px 0;
+            font-weight: bold;
+            font-size: 26px;
+        }
+
+        .kpi {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .kpi-heading {
+            font-size: 34px;
+            color: #1da69a;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-top: 12px;
+        }
+
+        .small-label {
+            font-size: 13px;
+            color: #bbb;
+            font-weight: normal;
+        }
+
+        .pie-chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 300px;
+            padding: 10px 0;
+        }
+
+        .pie-legend {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            gap: 8px;
+            font-size: 14px;
+            color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s;
+        }
+
+        .legend-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .legend-label {
+            font-weight: 500;
+            margin-left: 4px;
+        }
+
+
+        .chart-container {
+            min-height: 200px;
+            margin-bottom: 10px;
+        }
+
+        .pie-legend span {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .table {
+            color: #333;
+            background: transparent;
+            width: 100%;
+        }
+
+        .table thead tr th {
+            color: #fff;
+            background: #1da69a;
+            text-align: left;
+            padding: 8px;
+        }
+
+        .table tbody td {
+            padding: 8px;
+        }
+
+        .panel {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        .kpi-box {
+            margin-bottom: 25px;
+        }
+
+        .kpi-box:last-child {
+            margin-right: 0;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-dashboard {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h3>Altimetrik</h3>
+        <ul>
+            <li><a href="#"><i class="fa fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fa fa-user"></i> Employees</a></li>
+            <li><a href="#"><i class="fa fa-cogs"></i> Services</a></li>
+            <li><a href="#"><i class="fa fa-calendar"></i> Schedule</a></li>
+            <li><a href="#"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-dashboard">
+        <!-- KPI HEADER -->
+        <div class="row">
+            <div class="kpi-box col-md-3">
+                <div class="text-center">
+                    <div class="kpi-heading">Altimetrik</div>
+                </div>
+            </div>
+            <div class="kpi-box col-md-3">
+                <div class="dashboard-card text-center">
+                    <div class="kpi" id="avgScore">87%</div>
+                    <div class="small-label">Average Score</div>
+                </div>
+            </div>
+            <div class="kpi-box col-md-3">
+                <div class="dashboard-card text-center">
+                    <div class="kpi" id="employee">120</div>
+                    <div class="small-label">Employees</div>
+                </div>
+            </div>
+            <div class="kpi-box col-md-3">
+                <div class="dashboard-card text-center">
+                    <div class="kpi" id="orders">56</div>
+                    <div class="small-label">Orders</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row">
+            <div class="col-lg-6" style="margin-bottom: 30px;">
+                <div class="dashboard-card">
+                    <div class="card-title">Gender</div>
+                    <div class="">
+                        <div class="pie-chart-container">
+                            <canvas id="genderDonut"></canvas>
+                        </div>
+                        <div>
+                            <span class="pie-legend">
+                                <span style="background:#f458a4;"></span> Female
+                                <span style="background:#298cd3;"></span> Male
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" style="margin-bottom: 30px;">
+                <div class="dashboard-card">
+                    <div class="card-title">Services</div>
+                    <div class="">
+                        <div class="pie-chart-container">
+                            <canvas id="servicesPie"></canvas>
+                        </div>
+                        <div id="services-legend" class="pie-legend"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" style="margin-bottom: 30px;">
+                <div class="dashboard-card">
+                    <div class="card-title">Age</div>
+                    <div class="chart-container">
+                        <canvas id="ageBar"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" style="margin-bottom: 30px;">
+                <div class="dashboard-card">
+                    <div class="card-title">Services Availed</div>
+                    <div class="chart-container">
+                        <canvas id="serviceLine"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="dashboard-card">
+                    <div class="card-title">Details</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Candidate</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Services</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detailsTable">
+                            <tr>
+                                <td>John</td>
+                                <td>32</td>
+                                <td>Male</td>
+                                <td>Dental</td>
+                            </tr>
+                            <tr>
+                                <td>Sara</td>
+                                <td>29</td>
+                                <td>Female</td>
+                                <td>Vision</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Availed & Table -->
+        <div class="row">
+
+        </div>
+    </div>
+
+    <!-- Dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // MOCK DATA (replace with fetch/ajax if desired)
+        var data = {
+            "averageScore": 74.05,
+            "employee": 33,
+            "orders": 57,
+            "gender": { "Male": 14, "Female": 19 },
+            "ages": [33, 36, 22, 25, 35, 29, 30, 27, 34],
+            "ageCounts": [5, 4, 4, 4, 4, 4, 3, 3, 3],
+            "services": [
+                { "label": "Surgery", "value": 18.2 },
+                { "label": "Second Opinion", "value": 15.9 },
+                { "label": "Home Health Care", "value": 13.6 },
+                { "label": "Ambulance", "value": 13.6 },
+                { "label": "Lab Test", "value": 13.6 },
+                { "label": "Teleconsultation", "value": 11.4 },
+                { "label": "Doctor Home Visit", "value": 13.6 }
+            ],
+            "servicesAvailedByMonth": [
+                { "month": "May 2024", "count": 2 },
+                { "month": "Jun 2024", "count": 8 },
+                { "month": "Jul 2024", "count": 4 },
+                { "month": "Aug 2024", "count": 4 },
+                { "month": "Sep 2024", "count": 5 },
+                { "month": "Oct 2024", "count": 13 }
+            ],
+            "details": [
+                { "candidate": "indu p", "age": 22, "gender": "Male", "services": "Teleconsultation" },
+                { "candidate": "indu p", "age": 35, "gender": "Female", "services": "Second Opinion" },
+                { "candidate": "indu p", "age": 25, "gender": "Female", "services": "Second Opinion" },
+                { "candidate": "Indu P", "age": 29, "gender": "Female", "services": "Home Health Care" },
+                { "candidate": "indu p", "age": 33, "gender": "Female", "services": "Surgery" },
+                { "candidate": "indu p", "age": 36, "gender": "Male", "services": "Lab Test" },
+                { "candidate": "indu p", "age": 30, "gender": "Female", "services": "Teleconsultation" }
+            ]
+        };
+
+        // KPIs
+        document.getElementById('avgScore').innerText = data.averageScore;
+        document.getElementById('employee').innerText = data.employee;
+        document.getElementById('orders').innerText = data.orders;
+
+        // Gender Donut Chart
+        var ctxGender = document.getElementById('genderDonut').getContext('2d');
+        var genderDonut = new Chart(ctxGender, {
+            type: 'doughnut',
+            data: {
+                labels: ['Male', 'Female'],
+                datasets: [{
+                    data: [data.gender.Male, data.gender.Female],
+                    backgroundColor: ['#298cd3', '#f458a4'],
+                    borderWidth: 2,
+                    borderColor: '#1a2e40'
+                }]
+            },
+            options: {
+                cutout: '70%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function (ctx) {
+                                var total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                                var pct = ((ctx.raw / total) * 100).toFixed(1);
+                                return ctx.label + ": " + pct + "%";
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Age Bar Chart
+        var ctxAge = document.getElementById('ageBar').getContext('2d');
+        var ageBar = new Chart(ctxAge, {
+            type: 'bar',
+            data: {
+                labels: data.ages.map(String),
+                datasets: [{
+                    data: data.ageCounts,
+                    backgroundColor: ['#39bfa7'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: 'white' }
+                    },
+                    y: {
+                        grid: { display: false },
+                        beginAtZero: true,
+                        ticks: { color: 'white', stepSize: 1 }
+                    }
+                }
+            }
+        });
+
+        // Service Pie Chart
+        var ctxService = document.getElementById('servicesPie').getContext('2d');
+        var pieColors = [
+            '#3385d3', '#4cd1ef', '#ffe066', '#3bc38b', '#fd92b1', '#f1a661', '#b5e550'
+        ];
+        var servicesPie = new Chart(ctxService, {
+            type: 'pie',
+            data: {
+                labels: data.services.map(s => s.label),
+                datasets: [{
+                    data: data.services.map(s => s.value),
+                    backgroundColor: pieColors
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function (ctx) {
+                                return ctx.label + ": " + ctx.raw + "%";
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        // Pie Legend
+        let legendHTML = '';
+        data.services.forEach((s, i) => {
+            legendHTML += `<span style="background:${pieColors[i]};"></span> ${s.label} `;
+        });
+        document.getElementById('services-legend').innerHTML = legendHTML;
+
+        // Services Availed Line Chart
+        var ctxLine = document.getElementById('serviceLine').getContext('2d');
+        var serviceLine = new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: data.servicesAvailedByMonth.map(m => m.month),
+                datasets: [{
+                    data: data.servicesAvailedByMonth.map(m => m.count),
+                    fill: false,
+                    borderColor: "#25d3ba",
+                    backgroundColor: "#25d3ba",
+                    tension: 0.2,
+                    pointBackgroundColor: "#fff",
+                    pointBorderColor: "#01928f",
+                    pointRadius: 6,
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: 'white' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { display: false },
+                        ticks: { color: 'white', stepSize: 1 }
+                    }
+                }
+            }
+        });
+
+        // Details Table
+        var tableHTML = '';
+        data.details.forEach(function (row) {
+            tableHTML += `<tr>
+        <td>${row.candidate}</td>
+        <td>${row.age}</td>
+        <td>${row.gender}</td>
+        <td>${row.services}</td>
+        </tr>`;
+        });
+        document.getElementById('detailsTable').innerHTML = tableHTML;
+    </script>
+</body>
+
+</html>

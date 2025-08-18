@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insurance Company Revenue Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --primary: #1da69a;
+            --background: #f0f4f8;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --text-color: #333;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f4f8, #d9f2ee);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            padding: 30px 20px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar h3 {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul li a {
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            padding: 8px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding-left: 12px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 240px;
+            padding: 30px;
+            width: calc(100% - 240px);
+        }
+
+        .header-bar {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        /* Stat Cards */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h2 {
+            font-size: 1.4rem;
+            color: var(--text-color);
+        }
+
+        .stat-card p {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* Layout Row */
+        .content-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .date-picker {
+            display: inline-block;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .date-picker select {
+            padding: 8px 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            font-size: 14px;
+            color: #333;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            /* Remove default arrow */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            transition: all 0.3s ease;
+            min-width: 180px;
+        }
+
+        /* Custom dropdown arrow */
+        .date-picker::after {
+            content: "▼";
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: #666;
+            pointer-events: none;
+        }
+
+        .date-picker select:hover {
+            border-color: #1da69a;
+            box-shadow: 0 0 5px rgba(29, 166, 154, 0.3);
+        }
+
+        .date-picker select:focus {
+            border-color: #1da69a;
+            box-shadow: 0 0 8px rgba(29, 166, 154, 0.5);
+        }
+
+        /* Filter List */
+        .filter-list {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .filter-list h4 {
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .filter-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-item input {
+            margin-right: 8px;
+            accent-color: var(--primary);
+        }
+
+        /* Charts Grid */
+        .charts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            flex: 3;
+        }
+
+        .chart-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .chart-card h4 {
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        /* Bottom Charts Row */
+        .bottom-charts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tables-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .table-card {
+            flex: 1;
+            margin-top: 30px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            height: 300px;
+        }
+
+        .table-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .scrollable-table {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        tbody td,
+        tfoot td {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .amount {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .amount-highlight {
+            background: rgba(30, 144, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        /* Fix grand total row */
+        tfoot {
+            background: var(--primary);
+            color: #fff;
+            border-radius: 10px;
+            position: sticky;
+            bottom: 0;
+        }
+
+        /* Scrollbar */
+        .scrollable-table::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrollable-table::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .tables-row {
+                display: flex;
+                gap: 20px;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Altimetrik</h3>
+        <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Employees</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Schedule</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header-bar">Insurance Company Revenue Dashboard</div>
+
+        <!-- Stat Cards -->
+        <div class="stats">
+            <div class="stat-card">
+                <h2>₹927,380.00</h2>
+                <p>Total Invoice Amount</p>
+            </div>
+            <div class="stat-card">
+                <h2>₹166,928.00</h2>
+                <p>Total GST Collected</p>
+            </div>
+            <div class="stat-card">
+                <h2>₹46,848.00</h2>
+                <p>Total TDS Deducted</p>
+            </div>
+            <div class="stat-card">
+                <h2>₹894,178.00</h2>
+                <p>Total Amount Received</p>
+            </div>
+            <div class="stat-card">
+                <h2>₹153,282.00</h2>
+                <p>Total Receivable Amount</p>
+            </div>
+        </div>
+
+        <!-- Filter & Charts -->
+        <div class="content-row">
+            <div class="filter-list">
+                <div class="date-picker">
+                    <select>
+                        <option>Select date range</option>
+                    </select>
+                </div>
+                <h4>Insurance Company Name</h4>
+                <div class="filter-item"><input type="checkbox" checked> FUTURISK INSURANCE BROKING CO PRIVATE ...</div>
+                <div class="filter-item"><input type="checkbox" checked> Futurisk Insurance Broking Co Pvt Ltd</div>
+                <div class="filter-item"><input type="checkbox" checked> MAGMA HDI GENERAL INSURANCE COMPANY ...</div>
+                <div class="filter-item"><input type="checkbox" checked> Surin Automotive private limited</div>
+                <div class="filter-item"><input type="checkbox" checked> TYSON FOODS</div>
+            </div>
+
+            <div class="charts">
+                <div class="chart-card">
+                    <h4>Top Insurance Companies by Invoice Amount</h4>
+                    <canvas id="chart1"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h4>GST Contribution by Insurance Company</h4>
+                    <canvas id="chart2"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h4>Receivable Amount by Insurance Company</h4>
+                    <canvas id="chart3"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h4>Date-wise Invoice Amount</h4>
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Charts in Row -->
+        <div class="bottom-charts">
+            <div class="chart-card">
+                <h4>Invoices Distribution by Insurance Company</h4>
+                <canvas id="pieChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h4>Percentage of TDS Deducted by Company</h4>
+                <canvas id="doughnutChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h4>Invoice Aging Analysis</h4>
+                <canvas id="invoiceAgingChart"></canvas>
+            </div>
+        </div>
+
+        <div class="tables-row">
+            <!-- Left Table -->
+            <div class="table-card">
+                <h4>Invoice Amounts Across Months and Companies</h4>
+                <div class="scrollable-table">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Jun 2024</td>
+                                <td>MAGMA HDI GENERAL INSURANCE COMPANY LIMITED</td>
+                                <td class="amount amount-highlight">₹413.47K</td>
+                            </tr>
+                            <tr>
+                                <td>Aug 2024</td>
+                                <td>Futurisk Insurance Broking Co Pvt Ltd</td>
+                                <td class="amount amount-highlight">₹296.65K</td>
+                            </tr>
+                            <tr>
+                                <td>Mar 2025</td>
+                                <td>Surin Automotive private limited</td>
+                                <td class="amount amount-highlight">₹135.23K</td>
+                            </tr>
+                            <tr>
+                                <td>Jan 2025</td>
+                                <td>FUTURISK INSURANCE BROKING CO PRIVATE LIMITED-1</td>
+                                <td class="amount amount-highlight">₹103.23K</td>
+                            </tr>
+                            <tr>
+                                <td>May 2025</td>
+                                <td>Another Company Name</td>
+                                <td class="amount amount-highlight">₹89.5K</td>
+                            </tr>
+                            <tr>
+                                <td>Jul 2025</td>
+                                <td>Example Insurance Pvt Ltd</td>
+                                <td class="amount amount-highlight">₹72.8K</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2"><strong>Grand total</strong></td>
+                                <td class="amount"><strong>₹1.11M</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Right Table -->
+            <div class="table-card">
+                <h4>Companies with High Pending Payments</h4>
+                <div class="scrollable-table">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Surin Automotive private limited</td>
+                                <td class="amount amount-highlight">₹135.2K</td>
+                            </tr>
+                            <tr>
+                                <td>TYSON FOODS</td>
+                                <td class="amount amount-highlight">₹18.05K</td>
+                            </tr>
+                            <tr>
+                                <td>Futurisk Insurance Broking Co Pvt Ltd</td>
+                                <td class="amount">0</td>
+                            </tr>
+                            <tr>
+                                <td>MAGMA HDI GENERAL INSURANCE COMPANY LIMITED</td>
+                                <td class="amount">0</td>
+                            </tr>
+                            <tr>
+                                <td>Example Motors</td>
+                                <td class="amount amount-highlight">₹56.4K</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td><strong>Grand total</strong></td>
+                                <td class="amount"><strong>₹209.65K</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const createBarChart = (id, labels, data) => {
+            new Chart(document.getElementById(id), {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        data,
+                        backgroundColor: 'rgba(29, 166, 154, 0.8)',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        };
+
+        const createPieChart = (id, labels, data, type = 'pie') => {
+            new Chart(document.getElementById(id), {
+                type: type,
+                data: {
+                    labels,
+                    datasets: [{
+                        data,
+                        backgroundColor: [
+                            '#1da69a', '#4db6ac', '#80cbc4', '#b2dfdb', '#e0f2f1'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
+
+        const createLineChart = (id, labels, data) => {
+            new Chart(document.getElementById(id), {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Amount Received',
+                        data,
+                        fill: true,
+                        borderColor: '#1da69a',
+                        backgroundColor: 'rgba(29, 166, 154, 0.1)',
+                        tension: 0.3,
+                        pointBackgroundColor: '#1da69a'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        };
+
+        new Chart(document.getElementById('invoiceAgingChart'), {
+            type: 'bar',
+            data: {
+                labels: ['0-30 Days', '31-60 Days', '61-90 Days', '90+ Days'],
+                datasets: [{
+                    label: 'Invoice Amount',
+                    data: [150000, 80000, 45000, 20000],
+                    backgroundColor: 'rgba(29, 166, 154, 0.8)',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                return value >= 1000 ? value / 1000 + 'K' : value;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Bar charts
+        createBarChart('chart1', ['Futurisk', 'Futurisk Pvt', 'Magma HDI', 'Surin', 'Tyson'], [350400, 314100, 129500, 87500, 45900]);
+        createBarChart('chart2', ['Futurisk', 'Futurisk Pvt', 'Magma HDI', 'Surin', 'Tyson'], [63100, 56500, 23300, 15700, 8300]);
+        createBarChart('chart3', ['Futurisk', 'Surin'], [135200, 18100]);
+
+        // Pie & Doughnut charts
+        createPieChart('pieChart', ['Futurisk', 'Futurisk Pvt', 'Magma HDI', 'Surin', 'Tyson'], [37.8, 33.9, 14, 9.4, 5]);
+        createPieChart('doughnutChart', ['Futurisk', 'Magma HDI', 'Surin', 'Tyson'], [74.8, 18.7, 4, 2.5], 'doughnut');
+
+        // Line chart
+        createLineChart('lineChart', ['Jan 6', 'Jan 7', 'Jan 31', 'Feb 4', 'Jun 24', 'Jul 17', 'Jul 24', 'Jul 31', 'Aug 9', 'Aug 13', 'Oct 15', 'Dec 9'],
+            [1000, 3000, 8000, 15000, 35000, 0, 2000, 1500, 800, 1200, 25000, 500]);
+    </script>
+
+</body>
+
+</html>

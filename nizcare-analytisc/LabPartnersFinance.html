@@ -1,0 +1,291 @@
+""<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lab Partners Finance Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #1da69a;
+            --background: #f0f4f8;
+            --card-bg: #ffffff;
+            --text-color: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--background);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            padding: 30px 20px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar h3 {
+            font-weight: 600;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul li a {
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            color: #fff;
+            margin-left: 5px;
+        }
+
+        .main-content {
+            margin-left: 240px;
+            padding: 30px;
+            flex: 1;
+            transition: margin-left 0.3s ease;
+            width: calc(100% - 240px);
+        }
+
+        .header-bar {
+            background: #fff;
+            color: var(--primary);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .dashboard-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .table-container {
+            margin-top: 30px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #1da69a;
+            color: #fff;
+        }
+
+        th, td {
+            padding: 12px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        .summary {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .summary-box {
+            background: #1da69a;
+            color: #fff;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .summary-box h2 {
+            font-size: 1.5rem;
+        }
+
+        .summary-box span {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                position: absolute;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .summary {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="sidebar" id="sidebar">
+        <h3>Altimetrik</h3>
+        <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Employees</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Schedule</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="header-bar">
+            <div class="header-title">Lab Partners Finance Dashboard</div>
+        </div>
+
+        <div class="dashboard-section">
+            <div class="summary">
+                <div class="summary-box">
+                    <h2>₹6,133,796.94</h2>
+                    <span>Total Amount</span>
+                </div>
+                <div class="summary-box">
+                    <h2>Paid</h2>
+                    <span>Amount Status</span>
+                </div>
+            </div>
+
+            <div>
+                <select>
+                    <option selected disabled>Select Lab</option>
+                    <option>Agile Airport Services</option>
+                    <option>AXIS CONSULTANCY</option>
+                    <!-- Add more options -->
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Lab Name</th>
+                        <th>Total Amount</th>
+                        <th>Amount Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Agile Airport Services</td>
+                        <td>₹3,125,787.72</td>
+                        <td>₹2,862,836.72</td>
+                    </tr>  
+                    <tr>
+                        <td>2</td>
+                        <td>Agile Airport Services</td>
+                        <td>₹3,125,787.72</td>
+                        <td>₹2,862,836.72</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Agile Airport Services</td>
+                        <td>₹3,125,787.72</td>
+                        <td>₹2,862,836.72</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Agile Airport Services</td>
+                        <td>₹3,125,787.72</td>
+                        <td>₹2,862,836.72</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Agile Airport Services</td>
+                        <td>₹3,125,787.72</td>
+                        <td>₹2,862,836.72</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Agile Airport Services</td>
+                        <td>₹3,125,787.72</td>
+                        <td>₹2,862,836.72</td>
+                    </tr> 
+                    <tr>
+                        <td>7</td>
+                        <td>AXIS CONSULTANCY- Only CN</td>
+                        <td>₹970,314.00</td>
+                        <td>₹149,624.00</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

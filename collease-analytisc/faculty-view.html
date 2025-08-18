@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Class Coordinator Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f6f9;
+        }
+
+        .sidebar {
+            height: 100vh;
+            background-color: #1D2F59;
+            color: white;
+            padding-top: 40px;
+            position: fixed;
+            width: 230px;
+        }
+
+        .sidebar img {
+            width: 200px;
+            padding-left: 16px;
+            margin-bottom: 25px;
+        }
+
+        .sidebar h3 {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .sidebar ul {
+            padding-left: 0;
+        }
+
+        .sidebar ul li {
+            list-style: none;
+            padding: 10px 20px;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #44c7d9;
+            cursor: pointer;
+        }
+
+        .main-content {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 8px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .card h3 {
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .card h6 {
+            font-weight: 600;
+        }
+
+        .chart-box {
+            border: 1px solid #e0f0f5;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 400px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .chart-graph {
+            border: 1px solid #e0f0f5;
+            border-radius: 10px;
+            padding: 20px;
+            /* min-height: 400px; */
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .chart-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 24px;
+            color: #2c3e50;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <img src="colleaze-logo.png" alt="" width="200px">
+        <ul>
+            <li>Home</li>
+            <li>Reports</li>
+            <li>Students</li>
+            <li>Staff</li>
+            <li>Settings</li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+
+        <!-- Navbar with logo and title -->
+        <nav class="navbar navbar-default" style="margin-bottom: 30px;">
+            <div class="" style="display: flex; align-items: center; justify-content: space-between;">
+
+                <!-- Logo -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img src="colleaze-logo.png" alt="Company Logo"
+                            style="height: 30px; display: inline-block; margin-top: -5px;">
+                    </a>
+                </div>
+
+                <!-- Title -->
+                <span style="font-size: 22px; font-weight: bold; color: #333; padding-right: 16px;">Class Coordinator
+                    Dashboard</span>
+            </div>
+        </nav>
+
+
+        <!-- Filter row -->
+        <div class="row" style="margin-bottom: 10px;">
+            <div class="col-md-3" style="margin-bottom: 10px;">
+                <select class="form-control">
+                    <option>Student ID</option>
+                    <option>2022</option>
+                    <option>2023</option>
+                </select>
+            </div>
+            <div class="col-md-3" style="margin-bottom: 10px;">
+                <select class="form-control">
+                    <option>Depatment</option>
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+            </div>
+            <div class="col-md-3" style="margin-bottom: 10px;">
+                <select class="form-control">
+                    <option>Hostel / Day Scholar</option>
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+            </div>
+            <div class="col-md-3" style="margin-bottom: 10px;">
+                <select class="form-control">
+                    <option>Year</option>
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+            </div>
+            <div class="col-md-3" style="margin-bottom: 10px;">
+                <select class="form-control">
+                    <option>Semester</option>
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+            </div>
+            <div class="col-md-3" style="margin-bottom: 10px;">
+                <select class="form-control">
+                    <option>Section</option>
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+            </div>
+            <div class="col-md-3" style="margin-bottom: 10px;">
+                <select class="form-control">
+                    <option>Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4 col-md-2">
+                <div class="card">
+                    <h3>450</h3>
+                    <h6>Student Strength</h6>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-2">
+                <div class="card">
+                    <h3>50</h3>
+                    <h6>Hosteller</h6>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-2">
+                <div class="card">
+                    <h3>90</h3>
+                    <h6>Dayscholar</h6>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-2">
+                <div class="card">
+                    <h3>210</h3>
+                    <h6>Boys</h6>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-2">
+                <div class="card">
+                    <h3>2025</h3>
+                    <h6>Girls</h6>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-2">
+                <div class="card">
+                    <h3>33</h3>
+                    <h6>Student Attendance</h6>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-2">
+                <div class="card">
+                    <h3>47</h3>
+                    <h6>Boys</h6>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-2">
+                <div class="card">
+                    <h3>14</h3>
+                    <h6>Girls</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Chart 1 -->
+            <div class="col-md-6">
+                <div class="chart-box">
+                    <div class="chart-title">Result Comparison</div>
+                    <canvas id="resultChart"></canvas>
+                </div>
+            </div>
+            <!-- Chart 2 -->
+            <div class="col-md-6">
+                <div class="chart-graph">
+                    <div class="chart-title">Student Attendance</div>
+                    <div class="chart-container">
+                        <canvas id="studentAttendanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+    <script>
+        // Result Chart
+        new Chart(document.getElementById('resultChart'), {
+            type: 'bar',
+            data: {
+                labels: ['CIA - I', 'CIA - II', 'CIA - III', 'Model', 'University'],
+                datasets: [{
+                    label: 'Internal',
+                    data: [306, 320, 325, 310, 341],
+                    backgroundColor: '#4dd0e1'
+                },
+                {
+                    label: 'External',
+                    data: [94, 80, 75, 90, 59],
+                    backgroundColor: '#26c6da'
+                }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 400
+                    }
+                }
+            }
+        });
+
+        // studentAttendanceChart
+        const ctxstud = document.getElementById('studentAttendanceChart').getContext('2d');
+
+        new Chart(ctxstud, {
+            type: 'line',
+            data: {
+                labels: ['Feb 1', '', 'Feb 8', '', 'Feb 15', 'Feb 22', '', '', 'Mar 3', '', '', 'Mar 13', '', '', 'Mar 23', '', '', 'Apr 2', '', '', 'Apr 12', '', '', 'Apr 22', '', '', 'May 2', '', ''],
+                datasets: [{
+                    label: 'Attendance',
+                    data: [2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 2, 2, 2, 1, 1, 0, 0, 0, 0, 2, 2, 2, 1, 1, 0, 0, 0, 2, 2, 1],
+                    fill: false,
+                    borderColor: '#00bcd4',
+                    backgroundColor: '#00bcd4',
+                    tension: 0,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointStyle: 'circle'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#2c3e50',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        cornerRadius: 6,
+                        padding: 12,
+                        titleFont: { weight: 'bold', size: 14 },
+                        bodyFont: { size: 13 },
+                        displayColors: false
+                    },
+                    datalabels: {
+                        display: true,
+                        align: 'top',
+                        anchor: 'end',
+                        color: '#1a237e',
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 2,
+                        ticks: {
+                            stepSize: 1,
+                            color: '#37474f',
+                            font: { size: 13 }
+                        },
+                        grid: {
+                            color: '#ddd',
+                            lineWidth: 1
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#37474f',
+                            font: { size: 13 }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+    </script>
+
+</body>
+
+</html>

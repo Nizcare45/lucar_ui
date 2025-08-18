@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lucar Studio UI Changes</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+      animation: fadeIn 1.2s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .button {
+      padding: 14px 32px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #1da69a, #19b69e);
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(29, 166, 154, 0.25);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: slideIn 0.6s forwards;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 24px rgba(29, 166, 154, 0.35);
+      background: linear-gradient(135deg, #1da69a, #0f8c81);
+    }
+
+    a:nth-child(1) .button {
+      animation-delay: 0.3s;
+    }
+
+    a:nth-child(2) .button {
+      animation-delay: 0.5s;
+    }
+
+    a:nth-child(3) .button {
+      animation-delay: 0.7s;
+    }
+
+    @keyframes slideIn {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div>
+    <a href="./AltimetrikDashboard.html"><button class="button">Altimetrik Dashboard</button></a>
+    <a href="./hraReport.html"><button class="button">HRA Report Dashboard</button></a>
+    <a href="./BusinessPerformanceDashboard.html"><button class="button">Business Performance Dashboard</button></a>
+    <a href="./HealthCheckup.html"><button class="button">Health Checkup</button></a>
+    <a href="./CorporateFinanceDashboard.html"><button class="button">Corporate Finance Dashboard</button></a>
+    <a href="./LabPartnersFinance.html"><button class="button">Lab Partners Finance Dashboard</button></a>
+    <a href="./InsuranceCompanyRevenue.html"><button class="button">Insurance Company Revenue Dashboard</button></a>
+  </div>
+</body>
+
+</html>
