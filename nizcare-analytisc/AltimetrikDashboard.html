@@ -7,7 +7,7 @@
     <!-- Bootstrap 3 CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
         body {
             margin: 0;
@@ -63,6 +63,7 @@
             padding: 10px 15px 20px 15px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             height: 100%;
+            margin-top: 30px;
         }
 
         .card-title {
@@ -105,52 +106,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
             margin-top: 16px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            padding: 6px 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            gap: 8px;
-            font-size: 14px;
-            color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: background 0.3s;
-        }
-
-        .legend-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .legend-label {
-            font-weight: 500;
-            margin-left: 4px;
-        }
-
-
-        .chart-container {
-            min-height: 200px;
-            margin-bottom: 10px;
-        }
-
-        .pie-legend span {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            vertical-align: middle;
         }
 
         .table {
@@ -170,18 +128,8 @@
             padding: 8px;
         }
 
-        .panel {
-            background: transparent;
-            border: none;
-            box-shadow: none;
-        }
-
-        .kpi-box {
-            margin-bottom: 25px;
-        }
-
-        .kpi-box:last-child {
-            margin-right: 0;
+        .filter-container {
+            margin-bottom: 15px;
         }
 
         @media (max-width: 768px) {
@@ -193,19 +141,24 @@
                 padding: 10px;
             }
         }
+
+        .filter-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
 </head>
 
 <body>
-
     <div class="sidebar">
         <h3>Altimetrik</h3>
         <ul>
-            <li><a href="#"><i class="fa fa-chart-line"></i> Dashboard</a></li>
-            <li><a href="#"><i class="fa fa-user"></i> Employees</a></li>
-            <li><a href="#"><i class="fa fa-cogs"></i> Services</a></li>
-            <li><a href="#"><i class="fa fa-calendar"></i> Schedule</a></li>
-            <li><a href="#"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Employees</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Schedule</a></li>
+            <li><a href="#">Logout</a></li>
         </ul>
     </div>
 
@@ -242,30 +195,30 @@
             <div class="col-lg-6" style="margin-bottom: 30px;">
                 <div class="dashboard-card">
                     <div class="card-title">Gender</div>
-                    <div class="">
-                        <div class="pie-chart-container">
-                            <canvas id="genderDonut"></canvas>
-                        </div>
-                        <div>
-                            <span class="pie-legend">
-                                <span style="background:#f458a4;"></span> Female
-                                <span style="background:#298cd3;"></span> Male
-                            </span>
-                        </div>
+                    <div class="pie-chart-container">
+                        <canvas id="genderDonut"></canvas>
+                    </div>
+                    <div class="pie-legend">
+                        <span
+                            style="background:#1da69a;width:14px;height:14px;border-radius:50%;display:inline-block;"></span>
+                        Female
+                        <span
+                            style="background:#f9a527;width:14px;height:14px;border-radius:50%;display:inline-block;"></span>
+                        Male
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-6" style="margin-bottom: 30px;">
                 <div class="dashboard-card">
                     <div class="card-title">Services</div>
-                    <div class="">
-                        <div class="pie-chart-container">
-                            <canvas id="servicesPie"></canvas>
-                        </div>
-                        <div id="services-legend" class="pie-legend"></div>
+                    <div class="pie-chart-container">
+                        <canvas id="servicesPie"></canvas>
                     </div>
+                    <div id="services-legend" class="pie-legend"></div>
                 </div>
             </div>
+
             <div class="col-lg-6" style="margin-bottom: 30px;">
                 <div class="dashboard-card">
                     <div class="card-title">Age</div>
@@ -274,6 +227,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-6" style="margin-bottom: 30px;">
                 <div class="dashboard-card">
                     <div class="card-title">Services Availed</div>
@@ -282,9 +236,21 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-12">
                 <div class="dashboard-card">
-                    <div class="card-title">Details</div>
+                    <div class="filter-section">
+                        <div class="card-title">Details</div>
+
+                        <!-- Filter Dropdown -->
+                        <div class="filter-container">
+                            <label for="serviceFilter"><strong>Filter by Service:</strong></label>
+                            <select id="serviceFilter" class="form-control" style="width:auto;display:inline-block;">
+                                <option value="all">All</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <table class="table">
                         <thead>
                             <tr>
@@ -294,28 +260,10 @@
                                 <th>Services</th>
                             </tr>
                         </thead>
-                        <tbody id="detailsTable">
-                            <tr>
-                                <td>John</td>
-                                <td>32</td>
-                                <td>Male</td>
-                                <td>Dental</td>
-                            </tr>
-                            <tr>
-                                <td>Sara</td>
-                                <td>29</td>
-                                <td>Female</td>
-                                <td>Vision</td>
-                            </tr>
-                        </tbody>
+                        <tbody id="detailsTable"></tbody>
                     </table>
                 </div>
             </div>
-        </div>
-
-        <!-- Services Availed & Table -->
-        <div class="row">
-
         </div>
     </div>
 
@@ -324,7 +272,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // MOCK DATA (replace with fetch/ajax if desired)
+        // MOCK DATA
         var data = {
             "averageScore": 74.05,
             "employee": 33,
@@ -350,6 +298,8 @@
                 { "month": "Oct 2024", "count": 13 }
             ],
             "details": [
+                { "candidate": "John", "age": 32, "gender": "Male", "services": "Dental" },
+                { "candidate": "Sara", "age": 29, "gender": "Female", "services": "Vision" },
                 { "candidate": "indu p", "age": 22, "gender": "Male", "services": "Teleconsultation" },
                 { "candidate": "indu p", "age": 35, "gender": "Female", "services": "Second Opinion" },
                 { "candidate": "indu p", "age": 25, "gender": "Female", "services": "Second Opinion" },
@@ -366,14 +316,13 @@
         document.getElementById('orders').innerText = data.orders;
 
         // Gender Donut Chart
-        var ctxGender = document.getElementById('genderDonut').getContext('2d');
-        var genderDonut = new Chart(ctxGender, {
+        new Chart(document.getElementById('genderDonut').getContext('2d'), {
             type: 'doughnut',
             data: {
                 labels: ['Male', 'Female'],
                 datasets: [{
                     data: [data.gender.Male, data.gender.Female],
-                    backgroundColor: ['#298cd3', '#f458a4'],
+                    backgroundColor: ['#f9a527', '#1da69a'],
                     borderWidth: 2,
                     borderColor: '#1a2e40'
                 }]
@@ -381,23 +330,13 @@
             options: {
                 cutout: '70%',
                 plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: function (ctx) {
-                                var total = ctx.dataset.data.reduce((a, b) => a + b, 0);
-                                var pct = ((ctx.raw / total) * 100).toFixed(1);
-                                return ctx.label + ": " + pct + "%";
-                            }
-                        }
-                    }
+                    legend: { display: false }
                 }
             }
         });
 
         // Age Bar Chart
-        var ctxAge = document.getElementById('ageBar').getContext('2d');
-        var ageBar = new Chart(ctxAge, {
+        new Chart(document.getElementById('ageBar').getContext('2d'), {
             type: 'bar',
             data: {
                 labels: data.ages.map(String),
@@ -407,59 +346,25 @@
                     borderRadius: 6
                 }]
             },
-            options: {
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: {
-                        grid: { display: false },
-                        ticks: { color: 'white' }
-                    },
-                    y: {
-                        grid: { display: false },
-                        beginAtZero: true,
-                        ticks: { color: 'white', stepSize: 1 }
-                    }
-                }
-            }
+            options: { plugins: { legend: { display: false } } }
         });
 
         // Service Pie Chart
-        var ctxService = document.getElementById('servicesPie').getContext('2d');
-        var pieColors = [
-            '#3385d3', '#4cd1ef', '#ffe066', '#3bc38b', '#fd92b1', '#f1a661', '#b5e550'
-        ];
-        var servicesPie = new Chart(ctxService, {
+        var pieColors = ['#3385d3', '#4cd1ef', '#ffe066', '#3bc38b', '#fd92b1', '#f1a661', '#b5e550'];
+        new Chart(document.getElementById('servicesPie').getContext('2d'), {
             type: 'pie',
             data: {
                 labels: data.services.map(s => s.label),
-                datasets: [{
-                    data: data.services.map(s => s.value),
-                    backgroundColor: pieColors
-                }]
+                datasets: [{ data: data.services.map(s => s.value), backgroundColor: pieColors }]
             },
-            options: {
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: function (ctx) {
-                                return ctx.label + ": " + ctx.raw + "%";
-                            }
-                        }
-                    }
-                }
-            }
+            options: { plugins: { legend: { display: false } } }
         });
-        // Pie Legend
-        let legendHTML = '';
-        data.services.forEach((s, i) => {
-            legendHTML += `<span style="background:${pieColors[i]};"></span> ${s.label} `;
-        });
-        document.getElementById('services-legend').innerHTML = legendHTML;
+
+        // Build legend for services
+        document.getElementById('services-legend').innerHTML = data.services.map((s, i) => `<span style="background:${pieColors[i]};width:14px;height:14px;border-radius:50%;display:inline-block;"></span> ${s.label}`).join(" ");
 
         // Services Availed Line Chart
-        var ctxLine = document.getElementById('serviceLine').getContext('2d');
-        var serviceLine = new Chart(ctxLine, {
+        new Chart(document.getElementById('serviceLine').getContext('2d'), {
             type: 'line',
             data: {
                 labels: data.servicesAvailedByMonth.map(m => m.month),
@@ -475,33 +380,41 @@
                     pointBorderWidth: 2
                 }]
             },
-            options: {
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: {
-                        grid: { display: false },
-                        ticks: { color: 'white' }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        grid: { display: false },
-                        ticks: { color: 'white', stepSize: 1 }
-                    }
-                }
-            }
+            options: { plugins: { legend: { display: false } } }
         });
 
-        // Details Table
-        var tableHTML = '';
-        data.details.forEach(function (row) {
-            tableHTML += `<tr>
-        <td>${row.candidate}</td>
-        <td>${row.age}</td>
-        <td>${row.gender}</td>
-        <td>${row.services}</td>
-        </tr>`;
+        // Populate Table
+        function renderTable(filter = "all") {
+            let tableHTML = "";
+            data.details.forEach(row => {
+                if (filter === "all" || row.services === filter) {
+                    tableHTML += `<tr>
+                        <td>${row.candidate}</td>
+                        <td>${row.age}</td>
+                        <td>${row.gender}</td>
+                        <td>${row.services}</td>
+                    </tr>`;
+                }
+            });
+            document.getElementById('detailsTable').innerHTML = tableHTML;
+        }
+
+        // Populate filter dropdown
+        let serviceOptions = [...new Set(data.details.map(d => d.services))];
+        serviceOptions.forEach(service => {
+            let opt = document.createElement("option");
+            opt.value = service;
+            opt.textContent = service;
+            document.getElementById("serviceFilter").appendChild(opt);
         });
-        document.getElementById('detailsTable').innerHTML = tableHTML;
+
+        // Event listener for filter
+        document.getElementById("serviceFilter").addEventListener("change", function () {
+            renderTable(this.value);
+        });
+
+        // Initial render
+        renderTable();
     </script>
 </body>
 

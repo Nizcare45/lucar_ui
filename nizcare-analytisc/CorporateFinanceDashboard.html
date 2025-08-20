@@ -1,9 +1,9 @@
-""<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Corporate Finance Dashboard</title>
+    <title>Corporate Receivables</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Google Fonts -->
@@ -125,13 +125,15 @@
             color: #fff;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 20px;
             text-align: left;
             border-bottom: 1px solid #eaeaea;
         }
 
-        tr:hover {
+        /* ✅ Hover only on body rows, not thead */
+        tbody tr:hover {
             background-color: #f2f2f2;
         }
 
@@ -189,115 +191,115 @@
 </head>
 
 <body>
-<div class="container">
-    <div class="sidebar" id="sidebar">
-        <h3>Altimetrik</h3>
-        <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Employees</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Schedule</a></li>
-            <li><a href="#">Logout</a></li>
-        </ul>
-    </div>
-
-    <div class="main-content">
-        <div class="header-bar">
-            <div class="header-title">Corporate Finance Dashboard</div>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <h3>Altimetrik</h3>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Employees</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Schedule</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
         </div>
 
-        <div class="dashboard-section">
-            <div class="summary">
-                <div class="summary-box">
-                    <h2>Total Amount</h2>
-                    <span>₹18,133,796.94</span>
-                </div>
-                <div class="summary-box">
-                    <h2>Amount Received</h2>
-                    <span>₹14,715,655.94</span>
-                </div>
-                <div class="summary-box">
-                    <h2>Amount Pending</h2>
-                    <span>₹3,418,141.00</span>
-                </div>
+        <div class="main-content">
+            <div class="header-bar">
+                <div class="header-title">Corporate Receivables</div>
             </div>
 
-            <div>
-                <select>
-                    <option selected disabled>Select Corporate</option>
-                    <option>Agile Airport Services</option>
-                    <option>AXIS CONSULTANCY</option>
-                    <!-- Add more options -->
-                </select>
-            </div>
+            <div class="dashboard-section">
+                <div class="summary">
+                    <div class="summary-box">
+                        <h2>Total Amount</h2>
+                        <span>18,133,796.94</span>
+                    </div>
+                    <div class="summary-box">
+                        <h2>Amount Received</h2>
+                        <span>14,715,655.94</span>
+                    </div>
+                    <div class="summary-box">
+                        <h2>Amount Pending</h2>
+                        <span>3,418,141.00</span>
+                    </div>
+                </div>
 
-            <div class="table-container">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Corporate Name</th>
-                        <th>Total Amount</th>
-                        <th>Amount Received</th>
-                        <th>Amount Pending</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Agile Airport Services</td>
-                        <td>₹3,125,787.72</td>
-                        <td>₹2,862,836.72</td>
-                        <td>₹262,951.00</td>
-                    </tr>  
-                    <tr>
-                        <td>2</td>
-                        <td>Agile Airport Services</td>
-                        <td>₹3,125,787.72</td>
-                        <td>₹2,862,836.72</td>
-                        <td>₹262,951.00</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Agile Airport Services</td>
-                        <td>₹3,125,787.72</td>
-                        <td>₹2,862,836.72</td>
-                        <td>₹262,951.00</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Agile Airport Services</td>
-                        <td>₹3,125,787.72</td>
-                        <td>₹2,862,836.72</td>
-                        <td>₹262,951.00</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Agile Airport Services</td>
-                        <td>₹3,125,787.72</td>
-                        <td>₹2,862,836.72</td>
-                        <td>₹262,951.00</td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>Agile Airport Services</td>
-                        <td>₹3,125,787.72</td>
-                        <td>₹2,862,836.72</td>
-                        <td>₹262,951.00</td>
-                    </tr> 
-                    <tr>
-                        <td>7</td>
-                        <td>AXIS CONSULTANCY- Only CN</td>
-                        <td>₹970,314.00</td>
-                        <td>₹149,624.00</td>
-                        <td>₹820,690.00</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div>
+                    <select>
+                        <option selected disabled>Select Corporate</option>
+                        <option>Agile Airport Services</option>
+                        <option>AXIS CONSULTANCY</option>
+                        <!-- Add more options -->
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Corporate Name</th>
+                                <th>Amount in rupees</th>
+                                <th>Amount Received</th>
+                                <th>Amount Pending</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Agile Airport Services</td>
+                                <td>3,125,787.72</td>
+                                <td>2,862,836.72</td>
+                                <td>262,951.00</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Agile Airport Services</td>
+                                <td>3,125,787.72</td>
+                                <td>2,862,836.72</td>
+                                <td>262,951.00</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Agile Airport Services</td>
+                                <td>3,125,787.72</td>
+                                <td>2,862,836.72</td>
+                                <td>262,951.00</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Agile Airport Services</td>
+                                <td>3,125,787.72</td>
+                                <td>2,862,836.72</td>
+                                <td>262,951.00</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Agile Airport Services</td>
+                                <td>3,125,787.72</td>
+                                <td>2,862,836.72</td>
+                                <td>262,951.00</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Agile Airport Services</td>
+                                <td>3,125,787.72</td>
+                                <td>2,862,836.72</td>
+                                <td>262,951.00</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>AXIS CONSULTANCY- Only CN</td>
+                                <td>970,314.00</td>
+                                <td>149,624.00</td>
+                                <td>820,690.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 
 </html>

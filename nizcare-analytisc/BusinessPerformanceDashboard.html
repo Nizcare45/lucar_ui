@@ -178,9 +178,29 @@
 
         .grid-charts {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
+        }
+
+        .grid-charts-2 {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        .chart-box {
+            flex: 1 1 45%;
+            min-width: 280px;
+        }
+
+        .chart-box canvas {
+            width: 100% !important;
+            height: auto !important;
+            max-height: 400px;
         }
 
         /* Table Responsiveness */
@@ -224,6 +244,23 @@
                 margin-left: 0;
                 width: 100%;
             }
+
+            .grid-charts {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+                margin-bottom: 20px;
+            }
+
+            .grid-charts-2 {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .chart-box {
+                width: 100%;
+                max-width: 450px;
+            }
         }
     </style>
 </head>
@@ -250,7 +287,6 @@
 
         <!-- Cards -->
         <div class="cards">
-            <!-- Repeat card markup... -->
             <div class="card">
                 <h2>4,132</h2>
                 <p>Total Bookings</p>
@@ -289,7 +325,6 @@
         <div class="chart-section">
             <div class="filter-bar">
                 <h3>Margin by Service</h3>
-                <!-- Filters -->
                 <select>
                     <option>Year</option>
                     <option>2025</option>
@@ -340,6 +375,10 @@
             <div class="chart-box">
                 <h4>Service by Lab Partners</h4><canvas id="funnelChart"></canvas>
             </div>
+        </div>
+
+        <!-- Pie & Donut Charts -->
+        <div class="grid-charts-2">
             <div class="chart-box">
                 <h4>Managers Overall Performance</h4><canvas id="pieChart1"></canvas>
             </div>
@@ -361,37 +400,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Rows... -->
-                    <tr>
-                        <td>Dec 3, 2025</td>
-                        <td>Nagendra Rajwade</td>
-                        <td>Care Insurance</td>
-                        <td>CITY CARE DIAGNOSTICS</td>
-                    </tr>
-                    <tr>
-                        <td>Dec 3, 2025</td>
-                        <td>Nagendra Rajwade</td>
-                        <td>Care Insurance</td>
-                        <td>CITY CARE DIAGNOSTICS</td>
-                    </tr>
-                    <tr>
-                        <td>Dec 3, 2025</td>
-                        <td>Nagendra Rajwade</td>
-                        <td>Care Insurance</td>
-                        <td>CITY CARE DIAGNOSTICS</td>
-                    </tr>
-                    <tr>
-                        <td>Dec 3, 2025</td>
-                        <td>Nagendra Rajwade</td>
-                        <td>Care Insurance</td>
-                        <td>CITY CARE DIAGNOSTICS</td>
-                    </tr>
-                    <tr>
-                        <td>Dec 3, 2025</td>
-                        <td>Nagendra Rajwade</td>
-                        <td>Care Insurance</td>
-                        <td>CITY CARE DIAGNOSTICS</td>
-                    </tr>
                     <tr>
                         <td>Dec 3, 2025</td>
                         <td>Nagendra Rajwade</td>
@@ -430,163 +438,82 @@
     <!-- Scripts -->
     <script>
         const ctx = document.getElementById('marginChart').getContext('2d');
+        const chartDataSets = { all: [349100, 72400, 40600, 34200, 10600, 3000, 200] };
 
-        const chartDataSets = {
-            all: [349100, 72400, 40600, 34200, 10600, 3000, 200],
-        };
-
-        const marginChart = new Chart(ctx, {
+        new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ['Lab Test', 'Driver Pkg', 'Health', 'Vaccination', 'Annual', 'Consult', 'Home'],
-                datasets: [{
-                    label: 'Margin ₹',
-                    data: chartDataSets.all,
-                    backgroundColor: '#1da69a',
-                    borderRadius: 6,
-                }]
+                datasets: [{ label: 'Margin ₹', data: chartDataSets.all, backgroundColor: '#1da69a', borderRadius: 6 }]
             },
             options: {
                 responsive: true,
-                animation: {
-                    duration: 1200,
-                    easing: 'easeOutQuart',
-                    delay(ctx) {
-                        return ctx.dataIndex * 120;
-                    }
-                },
                 plugins: {
                     legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: (ctx) => `₹${(ctx.parsed.y / 1000).toFixed(1)}K`
-                        }
-                    }
+                    tooltip: { callbacks: { label: (ctx) => `₹${(ctx.parsed.y / 1000).toFixed(1)}K` } }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: (v) => `₹${(v / 1000)}K`
-                        }
-                    }
-                }
+                scales: { y: { beginAtZero: true, ticks: { callback: (v) => `₹${(v / 1000)}K` } } }
             }
         });
 
-        // Bar Chart 1 - Service Status by Manager
         new Chart(document.getElementById('barChart1'), {
             type: 'bar',
             data: {
                 labels: ['Ruchi', 'Ravish', 'Nikhil S.', 'Nikhil', 'Nagendra', 'Charanjitha', 'Anjali', '#REF!'],
-                datasets: [{
-                    label: 'Health Checkups',
-                    data: [282, 505, 85, 147, 730, 555, 1957, 13],
-                    backgroundColor: '#1da69a',
-                }]
+                datasets: [{ label: 'Health Checkups', data: [282, 505, 85, 147, 730, 555, 1957, 13], backgroundColor: '#1da69a' }]
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: false }
-                }
-            }
+            options: { responsive: true, plugins: { legend: { display: false } } }
         });
 
-        // Bar Chart 2 - Corporate Wise Health-Checkup
         new Chart(document.getElementById('barChart2'), {
             type: 'bar',
             data: {
                 labels: ['Metro brands', 'Securisk', 'sesimic', 'Ethika', 'MSG Global', 'Xoriant', 'SMA', 'securisk', 'Altimetrik'],
-                datasets: [{
-                    label: 'Count',
-                    data: [0, 1, 2, 2, 3, 6, 10, 12, 15],
-                    backgroundColor: '#1da69a'
-                }]
+                datasets: [{ label: 'Count', data: [0, 1, 2, 2, 3, 6, 10, 12, 15], backgroundColor: '#1da69a' }]
             },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                plugins: {
-                    legend: { display: false }
-                }
-            }
+            options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
         });
 
-        // Pie Chart - Manager Overall Performance
         new Chart(document.getElementById('pieChart1'), {
             type: 'pie',
             data: {
                 labels: ['Anjali', 'Nagendra', 'Charanjitha', 'Ruchi', 'Ravish', 'Nikhil S.', 'Nikhil'],
                 datasets: [{
                     data: [1957, 730, 555, 282, 505, 85, 147],
-                    backgroundColor: [
-                        '#f1c40f', '#e67e22', '#e74c3c',
-                        '#1abc9c', '#9b59b6', '#3498db', '#34495e'
-                    ]
+                    backgroundColor: ['#f1c40f', '#e67e22', '#e74c3c', '#1abc9c', '#9b59b6', '#3498db', '#34495e']
                 }]
             },
             options: {
                 responsive: true,
-                plugins: {
-                    legend: {
-                        labels: {
-                            usePointStyle: true,
-                            pointStyle: 'circle'
-                        }
-                    }
-                }
+                maintainAspectRatio: true,
+                plugins: { legend: { labels: { usePointStyle: true, pointStyle: 'circle' } } }
             }
         });
 
-        // Donut Chart - Package by Service
         new Chart(document.getElementById('donutChart'), {
             type: 'doughnut',
             data: {
-                labels: [
-                    'Agilus', 'prognosis Lab', 'B. Lal',
-                    'Prognosis', 'True life diagnostic',
-                    'Chandan Diagnostic', 'Healthians'
-                ],
+                labels: ['Agilus', 'prognosis Lab', 'B. Lal', 'Prognosis', 'True life diagnostic', 'Chandan Diagnostic', 'Healthians'],
                 datasets: [{
                     data: [1926, 289, 242, 166, 143, 120, 87],
-                    backgroundColor: [
-                        '#1da69a', '#f39c12', '#e74c3c',
-                        '#8e44ad', '#2ecc71', '#34495e', '#3498db'
-                    ]
+                    backgroundColor: ['#1da69a', '#f39c12', '#e74c3c', '#8e44ad', '#2ecc71', '#34495e', '#3498db']
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: true,
                 cutout: '60%',
-                plugins: {
-                    legend: {
-                        labels: {
-                            usePointStyle: true,
-                            pointStyle: 'circle'
-                        }
-                    }
-                }
+                plugins: { legend: { labels: { usePointStyle: true, pointStyle: 'circle' } } }
             }
         });
 
-        // Funnel Chart - Service by Lab Partners (Fake funnel using bar chart)
         new Chart(document.getElementById('funnelChart'), {
             type: 'bar',
             data: {
                 labels: ['Agilus', 'prognosis Lab', 'B. Lal', 'Prognosis', 'True life', 'Chandan', 'Healthians', 'Ashirwad', 'ASHIRWAD', 'Aarthi scans'],
-                datasets: [{
-                    data: [1926, 289, 242, 166, 143, 120, 87, 82, 77, 75],
-                    backgroundColor: '#1da69a'
-                }]
+                datasets: [{ data: [1926, 289, 242, 166, 143, 120, 87, 82, 77, 75], backgroundColor: '#1da69a' }]
             },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                plugins: {
-                    legend: { display: false }
-                }
-            }
+            options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
         });
     </script>
 </body>
